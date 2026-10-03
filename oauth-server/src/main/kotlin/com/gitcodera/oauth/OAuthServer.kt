@@ -2,7 +2,6 @@ package com.gitcodera.oauth
 
 import com.google.gson.Gson
 import com.google.gson.JsonParseException
-import com.google.gson.reflect.TypeToken
 import com.sun.net.httpserver.HttpExchange
 import com.sun.net.httpserver.HttpServer
 import java.io.IOException
@@ -49,7 +48,7 @@ class OAuthServer(
             handle(exchange) {
                 requireMethod(exchange, "POST")
                 requirePath(exchange, "/oauth/start")
-                val body = parseJsonBody<OAuthStartRequest>(exchange)
+                val body = parseJsonBody(exchange, OAuthStartRequest::class.java)
                 requireRandomState(body.state, "state")
                 require(body.codeChallenge.matches(PKCE_CHALLENGE_PATTERN)) {
                     "PKCE code challenge is invalid."
@@ -73,7 +72,7 @@ class OAuthServer(
             handle(exchange) {
                 requireMethod(exchange, "POST")
                 requirePath(exchange, "/oauth/exchange")
-                val body = parseJsonBody<OAuthExchangeRequest>(exchange)
+                val body = parseJsonBody(exchange, OAuthExchangeRequest::class.java)
                 require(body.ticket.matches(TICKET_PATTERN)) { "OAuth handoff is invalid." }
                 require(body.codeVerifier.matches(PKCE_VERIFIER_PATTERN)) {
                     "PKCE code verifier is invalid."
@@ -181,21 +180,21 @@ class OAuthServer(
         return tokens
     }
 
-    private inline fun <reified T> parseJsonBody(exchange: HttpExchange): T {
+    private fun <T> parseJsonBody(exchange: HttpExchange, type: Class<T>): T {
         if (!exchange.requestHeaders.getFirst("Content-Type").orEmpty().startsWith("application/json")) {
             throw OAuthRequestException("Content-Type must be application/json.")
         }
         val body = exchange.requestBody.use { it.readNBytes(MAX_BODY_BYTES + 1) }
         if (body.size > MAX_BODY_BYTES) throw OAuthRequestException("Request body is too large.")
         return try {
-            gson.fromJson(String(body, StandardCharsets.UTF_8), object : TypeToken<T>() {}.type)
+            gson.fromJson(String(body, StandardCharsets.UTF_8), type)
                 ?: throw OAuthRequestException("Request body is empty.")
         } catch (error: JsonParseException) {
             throw OAuthRequestException("Request body is not valid JSON.")
         }
     }
 
-    private fun <T> handle(exchange: HttpExchange, action: () -> T) {
+    private fun handle(exchange: HttpExchange, action: () -> Unit) {
         exchange.responseHeaders.set("Cache-Control", "no-store")
         exchange.responseHeaders.set("X-Content-Type-Options", "nosniff")
         exchange.responseHeaders.set("Referrer-Policy", "no-referrer")
@@ -209,8 +208,11 @@ class OAuthServer(
             if (!exchange.responseHeaders.containsKey("Location")) {
                 respond(exchange, 400, OAuthError(error.message ?: "invalid_request"))
             }
-        } catch (_: Exception) {
-            System.err.println("OAuth server request failed (${exchange.requestMethod} ${exchange.requestURI.path}).")
+        } catch (error: Exception) {
+            System.err.println(
+                "OAuth server request failed (${exchange.requestMethod} ${exchange.requestURI.path}): " +
+                    "${error.javaClass.simpleName}: ${error.message}",
+            )
             if (!exchange.responseHeaders.containsKey("Location")) {
                 respond(exchange, 500, OAuthError("server_error"))
             }

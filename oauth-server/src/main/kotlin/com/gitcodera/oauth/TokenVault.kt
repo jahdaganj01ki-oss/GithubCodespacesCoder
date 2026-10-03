@@ -24,6 +24,18 @@ internal data class PendingTicket(
     val expiresAt: Instant,
 )
 
+private fun ResultSet.toPendingAuthorization() = PendingAuthorization(
+    appState = getString("app_state"),
+    codeChallenge = getString("code_challenge"),
+    expiresAt = Instant.ofEpochMilli(getLong("expires_at")),
+)
+
+private fun ResultSet.toPendingTicket() = PendingTicket(
+    codeChallenge = getString("code_challenge"),
+    encryptedTokens = getString("encrypted_tokens"),
+    expiresAt = Instant.ofEpochMilli(getLong("expires_at")),
+)
+
 data class OAuthHandoff(
     val ticket: String,
     val appState: String,
