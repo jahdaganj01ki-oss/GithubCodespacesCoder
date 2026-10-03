@@ -24,7 +24,9 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: "17"
+          java-version: |
+            17
+            21
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
@@ -68,14 +70,16 @@ jobs:
             echo "Release signing is not configured; the release APK will be unsigned."
           fi
 
-      - name: Run unit tests and Android lint
+      - name: Run unit tests, backend tests and Android lint
         env:
           GITHUB_CLIENT_ID: ${{ vars.GITHUB_CLIENT_ID }}
-        run: ./gradlew --no-daemon --stacktrace :app:testDebugUnitTest :app:lintDebug
+          OAUTH_BACKEND_URL: ${{ vars.OAUTH_BACKEND_URL }}
+        run: ./gradlew --no-daemon --stacktrace :app:testDebugUnitTest :app:lintDebug :oauth-server:test :oauth-server:installDist
 
       - name: Build debug and release APKs
         env:
           GITHUB_CLIENT_ID: ${{ vars.GITHUB_CLIENT_ID }}
+          OAUTH_BACKEND_URL: ${{ vars.OAUTH_BACKEND_URL }}
           ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
@@ -83,6 +87,9 @@ jobs:
         run: |
           set -euo pipefail
           ./gradlew --no-daemon --stacktrace :app:assembleDebug :app:assembleRelease
+
+      - name: Build OAuth backend container
+        run: docker build --file oauth-server/Dockerfile --tag gitcodera-oauth-server:${{ github.sha }} .
 
       - name: Upload APK artifacts
         if: success()
@@ -93,3 +100,4 @@ jobs:
           path: |
             app/build/outputs/apk/debug/*.apk
             app/build/outputs/apk/release/*.apk
+            oauth-server/build/distributions/*.tar

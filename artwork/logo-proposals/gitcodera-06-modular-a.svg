@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — Modular A</title>
+  <desc id="desc">An abstract open-frame monogram made from code brackets and a pixel.</desc>
+  <defs>
+    <linearGradient id="violet" x1="126" y1="112" x2="342" y2="390" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C1A8FF"/>
+      <stop offset="1" stop-color="#7958E8"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="273" y1="282" x2="386" y2="392" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#78F2EC"/>
+      <stop offset="1" stop-color="#42B6D3"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <path d="m186 142-86 114 86 114m140-228 86 114-86 114" fill="none" stroke="url(#violet)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m205 345 51-137 51 137" fill="none" stroke="url(#cyan)" stroke-width="25" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M227 291h58" stroke="#E9E4FF" stroke-width="20" stroke-linecap="round"/>
+</svg>

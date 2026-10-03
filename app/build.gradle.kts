@@ -9,6 +9,16 @@ plugins {
 val githubClientId = providers.gradleProperty("GITHUB_CLIENT_ID")
     .orElse(providers.environmentVariable("GITHUB_CLIENT_ID"))
     .orElse("")
+val oauthBackendUrl = providers.gradleProperty("OAUTH_BACKEND_URL")
+    .orElse(providers.environmentVariable("OAUTH_BACKEND_URL"))
+    .orElse("")
+
+fun String.asJavaStringLiteral(): String =
+    "\"" + replace("\\", "\\\\")
+        .replace("\"", "\\\"")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+        .replace("\t", "\\t") + "\""
 
 android {
     namespace = "com.gitcodera"
@@ -20,7 +30,8 @@ android {
         targetSdk = 36
         versionCode = 1
         versionName = "1.0.0"
-        buildConfigField("String", "GITHUB_CLIENT_ID", "\"${githubClientId.get()}\"")
+        buildConfigField("String", "GITHUB_CLIENT_ID", githubClientId.get().asJavaStringLiteral())
+        buildConfigField("String", "OAUTH_BACKEND_URL", oauthBackendUrl.get().asJavaStringLiteral())
     }
 
     signingConfigs {

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — Git Loop</title>
+  <desc id="desc">Two precise workflow paths joined by a single commit node.</desc>
+  <defs>
+    <linearGradient id="accent" x1="106" y1="148" x2="403" y2="364" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#73E5D4"/>
+      <stop offset="1" stop-color="#35AFA8"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <path d="M146 169h82c41 0 67 25 67 63v49c0 38 25 63 67 63h4" fill="none" stroke="url(#accent)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M146 343h82c41 0 67-25 67-63v-49c0-38 25-63 67-63h4" fill="none" stroke="#D8FFF7" stroke-width="17" stroke-linecap="round"/>
+  <circle cx="146" cy="169" r="24" fill="#BFFFF3"/>
+  <circle cx="146" cy="343" r="24" fill="#BFFFF3"/>
+  <circle cx="366" cy="169" r="24" fill="#58CCBE"/>
+  <circle cx="366" cy="343" r="24" fill="#58CCBE"/>
+  <circle cx="295" cy="256" r="20" fill="#F2FFFC"/>
+</svg>

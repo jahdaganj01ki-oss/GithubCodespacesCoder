@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — Pair Programmer</title>
+  <desc id="desc">Two complementary code chevrons meet at a shared idea spark.</desc>
+  <defs>
+    <linearGradient id="violet" x1="112" y1="171" x2="256" y2="349" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B6A3FF"/>
+      <stop offset="1" stop-color="#8065F5"/>
+    </linearGradient>
+    <linearGradient id="aqua" x1="257" y1="171" x2="400" y2="349" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8AF0E4"/>
+      <stop offset="1" stop-color="#45C6C6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <path d="m184 178-77 78 77 78" fill="none" stroke="url(#violet)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m328 178 77 78-77 78" fill="none" stroke="url(#aqua)" stroke-width="28" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m256 189 14 49 49 18-49 18-14 49-18-49-49-18 49-18 18-49Z" fill="#F4F5FF"/>
+</svg>

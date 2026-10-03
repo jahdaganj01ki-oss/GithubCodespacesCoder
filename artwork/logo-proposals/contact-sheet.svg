@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1400" viewBox="0 0 1200 1400" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — ten logo proposals</title>
+  <desc id="desc">A contact sheet previewing ten original, standalone SVG app-icon concepts.</desc>
+  <rect width="1200" height="1400" rx="32" fill="#080B10"/>
+  <text x="48" y="65" fill="#F5F7FA" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">GitCoderA · Logo directions</text>
+  <text x="48" y="96" fill="#8B96A7" font-family="Inter, Arial, sans-serif" font-size="15">Ten original vector concepts · proposal only · current app icon unchanged</text>
+  <g font-family="Inter, Arial, sans-serif">
+    <g transform="translate(40 126)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-01-branch-beacon.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">01 · Branch Beacon</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">Repository branching, made visible.</text>
+      <text x="22" y="252" fill="#B7A5FF" font-size="11" font-weight="700">CONNECTED · PRECISE · DEV-FIRST</text>
+    </g>
+    <g transform="translate(425 126)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-02-codespace-orbit.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">02 · Codespace Orbit</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">A web IDE in a connected orbit.</text>
+      <text x="22" y="252" fill="#79F0F2" font-size="11" font-weight="700">CLOUD · MOBILE · IN REACH</text>
+    </g>
+    <g transform="translate(810 126)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-03-terminal-forge.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">03 · Terminal Forge</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">A prompt transformed into a spark.</text>
+      <text x="22" y="252" fill="#FFE08A" font-size="11" font-weight="700">BOLD · HANDS-ON · BUILDER</text>
+    </g>
+    <g transform="translate(40 436)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-04-pocket-ide.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">04 · Pocket IDE</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">The coding workspace, built for mobile.</text>
+      <text x="22" y="252" fill="#83F2C7" font-size="11" font-weight="700">NATIVE · CLEAR · COMPACT</text>
+    </g>
+    <g transform="translate(425 436)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-05-cloud-commit.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">05 · Cloud Commit</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">A commit graph in a remote workspace.</text>
+      <text x="22" y="252" fill="#84C5FF" font-size="11" font-weight="700">REMOTE · STRUCTURED · OPEN</text>
+    </g>
+    <g transform="translate(810 436)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-06-modular-a.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">06 · Modular A</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">An abstract code-built monogram.</text>
+      <text x="22" y="252" fill="#C1A8FF" font-size="11" font-weight="700">DISTINCTIVE · MODULAR · MODERN</text>
+    </g>
+    <g transform="translate(40 746)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-07-git-loop.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">07 · Git Loop</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">Workflow routes meet at one commit.</text>
+      <text x="22" y="252" fill="#73E5D4" font-size="11" font-weight="700">CONTINUOUS · BALANCED · CLEAR</text>
+    </g>
+    <g transform="translate(425 746)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-08-dev-compass.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">08 · Dev Compass</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">Code-shaped facets point to the work.</text>
+      <text x="22" y="252" fill="#8DB7FF" font-size="11" font-weight="700">FOCUSED · NAVIGATIONAL · SOLID</text>
+    </g>
+    <g transform="translate(810 746)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-09-relay-bridge.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">09 · Relay Bridge</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">Two code views, joined in one workspace.</text>
+      <text x="22" y="252" fill="#FFAA91" font-size="11" font-weight="700">CONNECTED · DIRECT · FRIENDLY</text>
+    </g>
+    <g transform="translate(425 1056)">
+      <rect width="350" height="286" rx="22" fill="#111720" stroke="#263140"/>
+      <image href="gitcodera-10-pair-programmer.svg" x="115" y="18" width="120" height="120"/>
+      <text x="22" y="181" fill="#F5F7FA" font-size="17" font-weight="700">10 · Pair Programmer</text>
+      <text x="22" y="213" fill="#A3AEC0" font-size="13">Human and agent, sharing one editor.</text>
+      <text x="22" y="252" fill="#B6A3FF" font-size="11" font-weight="700">COLLABORATIVE · THOUGHTFUL · MODERN</text>
+    </g>
+  </g>
+</svg>

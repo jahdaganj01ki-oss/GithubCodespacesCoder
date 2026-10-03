@@ -1,19 +1,18 @@
 pluginManagement {
+    plugins {
+        id("org.jetbrains.kotlin.jvm") version "2.1.20"
+    }
     repositories {
-        google()
-        mavenCentral()
         gradlePluginPortal()
+        mavenCentral()
     }
 }
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
-        google()
         mavenCentral()
     }
 }
 
-rootProject.name = "GitCoderA"
-include(":app")
-include(":oauth-server")
+rootProject.name = "gitcodera-oauth-server"

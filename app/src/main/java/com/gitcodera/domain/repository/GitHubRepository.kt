@@ -2,15 +2,21 @@ package com.gitcodera.domain.repository
 
 import com.gitcodera.data.model.Codespace
 import com.gitcodera.data.model.CodespacesSecret
+import com.gitcodera.data.model.AccessTokenResponse
+import com.gitcodera.data.model.OAuthStartResponse
 import com.gitcodera.data.model.Repository
 import com.gitcodera.data.model.User
 import kotlinx.coroutines.flow.StateFlow
 
 interface GitHubRepository {
     val currentUser: StateFlow<User?>
+    val isOAuthBackendConfigured: Boolean
     suspend fun restoreSession()
     suspend fun requestDeviceCode(): DeviceAuthorization
     suspend fun waitForDeviceAuthorization(deviceCode: String, expiresIn: Int, interval: Int)
+    suspend fun startBackendAuthorization(state: String, codeChallenge: String): OAuthStartResponse
+    suspend fun exchangeBackendHandoff(ticket: String, codeVerifier: String): AccessTokenResponse
+    suspend fun acceptBackendSession(tokens: AccessTokenResponse)
     suspend fun signOut()
     suspend fun getRepositories(): List<Repository>
     suspend fun createRepository(

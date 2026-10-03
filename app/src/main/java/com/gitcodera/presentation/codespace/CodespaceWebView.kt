@@ -28,6 +28,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -62,6 +63,7 @@ fun CodespaceWebView(
     val webView = remember { mutableStateOf<DesktopCodespaceWebView?>(null) }
     var pageProgress by remember(url) { mutableIntStateOf(0) }
     var pageError by remember(url) { mutableStateOf<String?>(null) }
+    var webViewGeneration by remember(url) { mutableIntStateOf(0) }
 
     DisposableEffect(rootView) {
         val window = (rootView.context as? android.app.Activity)?.window
@@ -83,10 +85,11 @@ fun CodespaceWebView(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
-        AndroidView(
-            modifier = Modifier.weight(1f),
-            factory = { viewContext ->
-                DesktopCodespaceWebView(viewContext).apply {
+        key(webViewGeneration) {
+            AndroidView(
+                modifier = Modifier.weight(1f),
+                factory = { viewContext ->
+                    DesktopCodespaceWebView(viewContext).apply {
                     layoutParams = ViewGroup.LayoutParams(
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.MATCH_PARENT,
@@ -95,8 +98,11 @@ fun CodespaceWebView(
                     settings.domStorageEnabled = true
                     settings.allowFileAccess = false
                     settings.allowContentAccess = false
+                    settings.mixedContentMode = android.webkit.WebSettings.MIXED_CONTENT_NEVER_ALLOW
+                    settings.safeBrowsingEnabled = true
                     settings.setSupportMultipleWindows(false)
                     settings.javaScriptCanOpenWindowsAutomatically = false
+                    settings.mediaPlaybackRequiresUserGesture = true
                     settings.loadWithOverviewMode = true
                     settings.useWideViewPort = true
                     val chromeVersion = Regex("Chrome/([0-9.]+)")
@@ -136,6 +142,16 @@ fun CodespaceWebView(
                             }
                         }
 
+                        override fun onRenderProcessGone(
+                            view: WebView,
+                            detail: android.webkit.RenderProcessGoneDetail,
+                        ): Boolean {
+                            pageError = "The editor process stopped. Reload the Codespace to continue."
+                            webView.value = null
+                            webViewGeneration++
+                            return true
+                        }
+
                         override fun shouldOverrideUrlLoading(
                             view: WebView,
                             request: WebResourceRequest,
@@ -168,6 +184,7 @@ fun CodespaceWebView(
                 it.destroy()
             },
         )
+        }
         if (pageError != null) {
             Row(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp),
@@ -176,7 +193,11 @@ fun CodespaceWebView(
                 Text(pageError.orEmpty(), modifier = Modifier.weight(1f), color = MaterialTheme.colorScheme.error)
                 TextButton(onClick = {
                     pageError = null
-                    webView.value?.reload()
+                    if (webView.value == null) {
+                        webViewGeneration++
+                    } else {
+                        webView.value?.reload()
+                    }
                 }) {
                     Text("Retry")
                 }

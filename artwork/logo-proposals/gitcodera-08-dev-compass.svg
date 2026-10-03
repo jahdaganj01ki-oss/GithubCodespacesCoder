@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — Dev Compass</title>
+  <desc id="desc">Four code-chevron facets navigate toward a central pixel.</desc>
+  <defs>
+    <linearGradient id="accent" x1="124" y1="119" x2="388" y2="394" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8DB7FF"/>
+      <stop offset="1" stop-color="#4D78F1"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <path d="m211 116-82 82 49 18 32-32 18-49-17-19Zm90 0 82 82-49 18-32-32-18-49 17-19Zm-90 280-82-82 49-18 32 32 18 49-17 19Zm90 0 82-82-49-18-32 32-18 49 17 19Z" fill="url(#accent)"/>
+  <rect x="230" y="230" width="52" height="52" rx="10" fill="#F2F7FF"/>
+</svg>

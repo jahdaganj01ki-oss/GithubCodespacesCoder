@@ -5,6 +5,7 @@ import android.net.Uri
 import android.webkit.CookieManager
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +21,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Storage
@@ -57,6 +57,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.shape.CircleShape
@@ -66,6 +67,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.gitcodera.data.model.Codespace
 import com.gitcodera.data.model.Repository
 import com.gitcodera.data.model.isValidCodespacesSecretName
+import com.gitcodera.R
 import com.gitcodera.presentation.auth.LoginViewModel
 import com.gitcodera.presentation.codespace.CodespaceViewModel
 import com.gitcodera.presentation.codespace.CodespaceWebView
@@ -83,7 +85,10 @@ private enum class AppTab(val label: String) {
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun AppNavigation() {
+fun AppNavigation(
+    oauthCallback: Uri? = null,
+    onOAuthCallbackHandled: () -> Unit = {},
+) {
     val loginViewModel: LoginViewModel = hiltViewModel()
     val repoViewModel: RepoViewModel = hiltViewModel()
     val codespaceViewModel: CodespaceViewModel = hiltViewModel()
@@ -94,9 +99,29 @@ fun AppNavigation() {
     val settings by settingsViewModel.state.collectAsState()
     var tab by rememberSaveable { mutableStateOf(AppTab.Home) }
     var editorUrl by rememberSaveable { mutableStateOf<String?>(null) }
+    var selectedRepository by remember { mutableStateOf<Repository?>(null) }
+    var selectedCodespace by remember { mutableStateOf<Codespace?>(null) }
     val snackbar = remember { SnackbarHostState() }
     val coroutineScope = androidx.compose.runtime.rememberCoroutineScope()
     val context = LocalContext.current
+
+    LaunchedEffect(oauthCallback) {
+        oauthCallback?.let {
+            loginViewModel.handleBackendCallback(it)
+            onOAuthCallbackHandled()
+        }
+    }
+    LaunchedEffect(login.browserAuthorizationUrl) {
+        val url = login.browserAuthorizationUrl ?: return@LaunchedEffect
+        try {
+            CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(url))
+            loginViewModel.clearBrowserAuthorizationUrl()
+        } catch (error: Exception) {
+            loginViewModel.authorizationLaunchFailed(
+                error.message ?: "Could not open GitHub sign-in.",
+            )
+        }
+    }
 
     LaunchedEffect(login.user, tab) {
         if (login.user != null) {
@@ -145,12 +170,18 @@ fun AppNavigation() {
             isLoading = login.isLoading,
             authorization = login.authorization,
             isAuthorizing = login.isAuthorizing,
+            backendOAuthConfigured = loginViewModel.backendOAuthConfigured,
+            backendHandoffPending = login.backendHandoffPending,
             error = login.error,
             onSignIn = loginViewModel::startLogin,
             onOpenVerification = { url ->
                 CustomTabsIntent.Builder().build().launchUrl(context, Uri.parse(url))
             },
-            onRetry = loginViewModel::startLogin,
+            onRetry = if (login.backendHandoffPending) {
+                loginViewModel::retryBackendHandoff
+            } else {
+                loginViewModel::startLogin
+            },
         )
         return
     }
@@ -164,7 +195,19 @@ fun AppNavigation() {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("GitCoderA") },
+                title = {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    ) {
+                        Image(
+                            painter = painterResource(R.drawable.gitcodera_logo),
+                            contentDescription = "GitCoderA logo",
+                            modifier = Modifier.size(32.dp),
+                        )
+                        Text("GitCoderA")
+                    }
+                },
                 actions = {
                     Row(
                         modifier = Modifier.padding(end = 16.dp),
@@ -218,6 +261,7 @@ fun AppNavigation() {
                 onRefresh = repoViewModel::load,
                 onCreate = repoViewModel::create,
                 onCreateCodespace = { repo -> codespaceViewModel.create(repo.fullName) },
+                onDetails = { selectedRepository = it },
             )
             AppTab.Codespaces -> CodespacesScreen(
                 codespaces = codespaces.codespaces,
@@ -237,6 +281,7 @@ fun AppNavigation() {
                 onStart = codespaceViewModel::start,
                 onStop = codespaceViewModel::stop,
                 onDelete = codespaceViewModel::delete,
+                onDetails = { selectedCodespace = it },
             )
             AppTab.Settings -> SettingsScreen(
                 user = currentUser.login,
@@ -260,6 +305,43 @@ fun AppNavigation() {
             )
         }
     }
+    selectedRepository?.let { repository ->
+        RepositoryDetailsDialog(
+            repository = repository,
+            onDismiss = { selectedRepository = null },
+            onOpenRepository = {
+                try {
+                    context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(repository.htmlUrl)))
+                } catch (_: android.content.ActivityNotFoundException) {
+                    coroutineScope.launch {
+                        snackbar.showSnackbar("No browser is available to open the repository.")
+                    }
+                }
+            },
+            onCreateCodespace = {
+                codespaceViewModel.create(repository.fullName)
+                selectedRepository = null
+                tab = AppTab.Codespaces
+            },
+        )
+    }
+    selectedCodespace?.let { codespace ->
+        CodespaceDetailsDialog(
+            codespace = codespace,
+            onDismiss = { selectedCodespace = null },
+            onOpen = {
+                val targetUrl = codespaceUrl(codespace)
+                if (targetUrl == null) {
+                    coroutineScope.launch {
+                        snackbar.showSnackbar("GitHub did not provide a valid Codespace URL.")
+                    }
+                } else {
+                    editorUrl = targetUrl
+                }
+                selectedCodespace = null
+            },
+        )
+    }
 }
 
 @Composable
@@ -267,6 +349,8 @@ private fun LoginScreen(
     isLoading: Boolean,
     authorization: com.gitcodera.domain.repository.DeviceAuthorization?,
     isAuthorizing: Boolean,
+    backendOAuthConfigured: Boolean,
+    backendHandoffPending: Boolean,
     error: String?,
     onSignIn: () -> Unit,
     onOpenVerification: (String) -> Unit,
@@ -277,7 +361,11 @@ private fun LoginScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Icon(Icons.Default.Code, contentDescription = null, modifier = Modifier.size(64.dp), tint = MaterialTheme.colorScheme.primary)
+        Image(
+            painter = painterResource(R.drawable.gitcodera_logo),
+            contentDescription = "GitCoderA logo",
+            modifier = Modifier.size(96.dp).padding(bottom = 12.dp),
+        )
         Text("GitCoderA", style = MaterialTheme.typography.headlineLarge, fontWeight = FontWeight.Bold)
         Text("Your mobile GitHub development environment", modifier = Modifier.padding(top = 8.dp, bottom = 24.dp))
         if (error != null) {
@@ -298,8 +386,28 @@ private fun LoginScreen(
             Spacer(Modifier.height(12.dp))
             if (isAuthorizing) CircularProgressIndicator()
         }
-        Button(onClick = if (authorization == null) onSignIn else onRetry, enabled = !isLoading && !isAuthorizing) {
-            Text(if (authorization == null) "Sign in with GitHub" else "Try again")
+        if (isAuthorizing && authorization == null) {
+            Text(
+                if (backendHandoffPending) {
+                    "Complete sign-in in the secure browser tab. Return here after GitHub redirects back."
+                } else {
+                    "Waiting for GitHub authorization…"
+                },
+            )
+        }
+        Button(
+            onClick = if (error != null && backendHandoffPending) onRetry
+                else if (authorization == null && !backendHandoffPending) onSignIn else onRetry,
+            enabled = !isLoading && (!isAuthorizing || error != null),
+        ) {
+            Text(
+                when {
+                    error != null && backendHandoffPending -> "Retry secure handoff"
+                    authorization != null -> "Check authorization"
+                    backendOAuthConfigured -> "Sign in securely with GitHub"
+                    else -> "Sign in with GitHub Device Flow"
+                },
+            )
         }
     }
 }
@@ -339,6 +447,7 @@ private fun RepositoryScreen(
     onRefresh: () -> Unit,
     onCreate: (String, String, Boolean, Boolean, String, String) -> Unit,
     onCreateCodespace: (Repository) -> Unit,
+    onDetails: (Repository) -> Unit,
 ) {
     var search by rememberSaveable { mutableStateOf("") }
     var showCreate by rememberSaveable { mutableStateOf(false) }
@@ -366,7 +475,9 @@ private fun RepositoryScreen(
                 it.fullName.contains(search, ignoreCase = true) ||
                     it.description.orEmpty().contains(search, ignoreCase = true)
             }, key = { it.id }) { repository ->
-                Card(Modifier.fillMaxWidth()) {
+                Card(
+                    Modifier.fillMaxWidth().clickable { onDetails(repository) },
+                ) {
                     Column(Modifier.padding(14.dp)) {
                         Text(repository.fullName, style = MaterialTheme.typography.titleMedium)
                         Text(repository.description ?: if (repository.isPrivate) "Private repository" else "Public repository")
@@ -388,6 +499,40 @@ private fun RepositoryScreen(
             },
         )
     }
+}
+
+@Composable
+private fun RepositoryDetailsDialog(
+    repository: Repository,
+    onDismiss: () -> Unit,
+    onOpenRepository: () -> Unit,
+    onCreateCodespace: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(repository.fullName) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text(repository.description?.takeIf(String::isNotBlank) ?: "No description")
+                Text(if (repository.isPrivate) "Private repository" else "Public repository")
+                repository.defaultBranch?.let { Text("Default branch: $it") }
+                repository.language?.let { Text("Language: $it") }
+                repository.updatedAt?.let { Text("Updated: $it") }
+                if (repository.archived) Text("Archived repositories cannot start a Codespace.")
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onCreateCodespace, enabled = !repository.archived) {
+                Text("Create Codespace")
+            }
+        },
+        dismissButton = {
+            Row {
+                TextButton(onClick = onOpenRepository) { Text("GitHub") }
+                TextButton(onClick = onDismiss) { Text("Close") }
+            }
+        },
+    )
 }
 
 @Composable
@@ -447,6 +592,7 @@ private fun CodespacesScreen(
     onStart: (String) -> Unit,
     onStop: (String) -> Unit,
     onDelete: (String) -> Unit,
+    onDetails: (Codespace) -> Unit,
 ) {
     Column(modifier.fillMaxSize().padding(16.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
@@ -459,7 +605,9 @@ private fun CodespacesScreen(
         }
         LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
             items(codespaces, key = { it.name }) { codespace ->
-                Card(Modifier.fillMaxWidth()) {
+                Card(
+                    Modifier.fillMaxWidth().clickable { onDetails(codespace) },
+                ) {
                     Column(Modifier.padding(14.dp)) {
                         Text(codespace.name, style = MaterialTheme.typography.titleMedium)
                         Text("${codespace.repository?.fullName ?: "Repository"} · ${codespace.state}")
@@ -481,6 +629,56 @@ private fun CodespacesScreen(
             }
         }
     }
+}
+
+@Composable
+private fun CodespaceDetailsDialog(
+    codespace: Codespace,
+    onDismiss: () -> Unit,
+    onOpen: () -> Unit,
+) {
+    val canOpen = codespace.state.equals("Available", ignoreCase = true) ||
+        codespace.state.equals("Running", ignoreCase = true)
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(codespace.displayName ?: codespace.name) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Text("State: ${codespace.state}")
+                Text("Repository: ${codespace.repository?.fullName ?: "Unknown"}")
+                codespace.gitStatus?.let { status ->
+                    val changes = buildList {
+                        if (status.hasUncommittedChanges == true) add("uncommitted changes")
+                        if (status.hasUntrackedFiles == true) add("untracked files")
+                        if (status.hasUnpushedChanges == true) add("unpushed changes")
+                    }
+                    if (changes.isNotEmpty()) Text("Git: ${changes.joinToString()}")
+                }
+                codespace.machine?.let { machine ->
+                    Text("Machine: ${machine.displayName ?: machine.name ?: "Unknown"}")
+                    machine.cpus?.let { Text("CPUs: $it") }
+                    machine.memoryInBytes?.let { Text("Memory: ${formatBytes(it)}") }
+                    machine.storageInBytes?.let { Text("Storage: ${formatBytes(it)}") }
+                }
+                codespace.location?.let { Text("Location: $it") }
+                codespace.devcontainerPath?.let { Text("Dev container: $it") }
+                codespace.createdAt?.let { Text("Created: $it") }
+                codespace.lastUsedAt?.let { Text("Last used: $it") }
+                if (!canOpen) Text("Start this Codespace before opening its editor.")
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onOpen, enabled = canOpen) { Text("Open editor") }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text("Close") } },
+    )
+}
+
+private fun formatBytes(bytes: Long): String {
+    if (bytes < 1_024) return "$bytes B"
+    val kib = bytes / 1_024.0
+    if (kib < 1_024) return "%.1f MiB".format(Locale.ROOT, kib)
+    return "%.1f GiB".format(Locale.ROOT, kib / 1_024)
 }
 
 @Composable

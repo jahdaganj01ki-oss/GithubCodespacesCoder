@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — Branch Beacon</title>
+  <desc id="desc">A branching repository graph with a focused coding cursor.</desc>
+  <defs>
+    <linearGradient id="accent" x1="96" y1="88" x2="408" y2="424" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B7A5FF"/>
+      <stop offset="1" stop-color="#7168F5"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <path d="M192 140v232m0-154 126-78m-126 154 126 78" fill="none" stroke="url(#accent)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="192" cy="140" r="27" fill="#EAE6FF"/>
+  <circle cx="192" cy="372" r="27" fill="#EAE6FF"/>
+  <circle cx="318" cy="140" r="27" fill="#A99BFF"/>
+  <circle cx="318" cy="372" r="27" fill="#A99BFF"/>
+  <path d="M318 218v76" stroke="#F7F6FF" stroke-width="20" stroke-linecap="round"/>
+  <path d="M318 218v-13" stroke="#F7F6FF" stroke-width="20" stroke-linecap="round"/>
+</svg>

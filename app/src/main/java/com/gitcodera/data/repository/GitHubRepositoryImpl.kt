@@ -3,12 +3,17 @@ package com.gitcodera.data.repository
 import com.gitcodera.BuildConfig
 import com.gitcodera.data.api.GitHubApiService
 import com.gitcodera.data.api.GitHubAuthService
+import com.gitcodera.data.api.OAuthBackendService
 import com.gitcodera.data.local.SecureStorage
 import com.gitcodera.data.model.Codespace
 import com.gitcodera.data.model.CodespacesSecret
 import com.gitcodera.data.model.isValidCodespacesSecretName
+import com.gitcodera.data.model.AccessTokenResponse
 import com.gitcodera.data.model.CreateCodespaceRequest
 import com.gitcodera.data.model.CreateRepositoryRequest
+import com.gitcodera.data.model.OAuthExchangeRequest
+import com.gitcodera.data.model.OAuthStartRequest
+import com.gitcodera.data.model.OAuthStartResponse
 import com.gitcodera.data.model.PutCodespaceSecretRequest
 import com.gitcodera.data.model.Repository
 import com.gitcodera.data.model.User
@@ -32,11 +37,13 @@ import javax.inject.Singleton
 class GitHubRepositoryImpl @Inject constructor(
     private val api: GitHubApiService,
     private val authApi: GitHubAuthService,
+    private val oauthBackend: OAuthBackendService,
     private val secureStorage: SecureStorage,
 ) : GitHubRepository {
     private val mutableCurrentUser = MutableStateFlow<User?>(null)
     private val tokenRefreshMutex = Mutex()
     override val currentUser: StateFlow<User?> = mutableCurrentUser.asStateFlow()
+    override val isOAuthBackendConfigured: Boolean = BuildConfig.OAUTH_BACKEND_URL.isNotBlank()
 
     override suspend fun restoreSession() {
         if (secureStorage.getToken() != null) {
@@ -89,6 +96,41 @@ class GitHubRepositoryImpl @Inject constructor(
             }
         }
         error("GitHub sign-in expired. Please try again.")
+    }
+
+    override suspend fun startBackendAuthorization(
+        state: String,
+        codeChallenge: String,
+    ): OAuthStartResponse {
+        check(isOAuthBackendConfigured) {
+            "Configure OAUTH_BACKEND_URL to use backend OAuth."
+        }
+        return oauthBackend.startAuthorization(
+            OAuthStartRequest(state, codeChallenge, APP_REDIRECT_URI),
+        )
+    }
+
+    override suspend fun exchangeBackendHandoff(
+        ticket: String,
+        codeVerifier: String,
+    ): AccessTokenResponse {
+        check(isOAuthBackendConfigured) {
+            "Configure OAUTH_BACKEND_URL to use backend OAuth."
+        }
+        return oauthBackend.exchangeHandoff(OAuthExchangeRequest(ticket, codeVerifier))
+    }
+
+    override suspend fun acceptBackendSession(tokens: AccessTokenResponse) {
+        require(tokens.error == null) {
+            tokens.errorDescription ?: "OAuth backend returned an authorization error."
+        }
+        persistOAuthSession(tokens)
+        try {
+            mutableCurrentUser.value = api.getUser()
+        } catch (error: Exception) {
+            secureStorage.clear()
+            throw error
+        }
     }
 
     override suspend fun signOut() {
@@ -227,6 +269,9 @@ class GitHubRepositoryImpl @Inject constructor(
             ) {
                 expireSession("GitHub refresh token expired. Sign in again.")
             }
+            check(BuildConfig.GITHUB_CLIENT_ID.isNotBlank()) {
+                "Configure GITHUB_CLIENT_ID to refresh GitHub sign-in."
+            }
             val response = authApi.refreshAccessToken(
                 clientId = BuildConfig.GITHUB_CLIENT_ID,
                 refreshToken = refreshToken,
@@ -273,5 +318,6 @@ class GitHubRepositoryImpl @Inject constructor(
         const val PAGE_SIZE = 100
         const val TOKEN_REFRESH_SKEW_MILLIS = 60_000L
         const val DEVICE_VERIFICATION_URI = "https://github.com/login/device"
+        const val APP_REDIRECT_URI = "gitcodera://oauth/callback"
     }
 }

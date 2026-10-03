@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="820" viewBox="0 0 1080 820" role="img" aria-labelledby="title description">
+  <title id="title">GitCoderA logo proposals</title>
+  <desc id="description">Four original logo directions for GitCoderA: Branch Beacon, Codespace Orbit, Terminal Forge, and Mobile Dev.</desc>
+  <defs>
+    <linearGradient id="violet" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#6366F1"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#67E8F9"/>
+      <stop offset="1" stop-color="#38BDF8"/>
+    </linearGradient>
+    <linearGradient id="amber" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FDE68A"/>
+      <stop offset="1" stop-color="#F59E0B"/>
+    </linearGradient>
+    <linearGradient id="mint" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6EE7B7"/>
+      <stop offset="1" stop-color="#34D399"/>
+    </linearGradient>
+  </defs>
+  <rect width="1080" height="820" rx="32" fill="#0B1020"/>
+  <text x="48" y="62" fill="#F8FAFC" font-family="sans-serif" font-size="30" font-weight="700">GitCoderA · Logo concepts</text>
+  <text x="48" y="91" fill="#94A3B8" font-family="sans-serif" font-size="15">Four original directions · proposal only · current launcher icon unchanged</text>
+
+  <g transform="translate(40 120)">
+    <rect width="490" height="310" rx="24" fill="#151D30" stroke="#28344D"/>
+    <rect x="32" y="32" width="128" height="128" rx="30" fill="#202B47"/>
+    <path d="M77 61v70m0-49 40-22m-40 47 40 22" fill="none" stroke="url(#violet)" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="77" cy="61" r="10" fill="#C4B5FD"/>
+    <circle cx="77" cy="131" r="10" fill="#C4B5FD"/>
+    <circle cx="117" cy="60" r="10" fill="#818CF8"/>
+    <circle cx="117" cy="131" r="10" fill="#818CF8"/>
+    <path d="m126 79 19-5-8 18-4-8-7-5Z" fill="#F8FAFC"/>
+    <text x="32" y="211" fill="#F8FAFC" font-family="sans-serif" font-size="22" font-weight="700">01 · Branch Beacon</text>
+    <text x="32" y="241" fill="#A9B5CB" font-family="sans-serif" font-size="15">Git branching meets a coding cursor.</text>
+    <text x="32" y="270" fill="#818CF8" font-family="sans-serif" font-size="13" font-weight="700">CONNECTED · PRECISE · DEV-FIRST</text>
+  </g>
+
+  <g transform="translate(550 120)">
+    <rect width="490" height="310" rx="24" fill="#151D30" stroke="#28344D"/>
+    <rect x="32" y="32" width="128" height="128" rx="30" fill="#172E40"/>
+    <rect x="55" y="61" width="82" height="61" rx="10" fill="none" stroke="url(#cyan)" stroke-width="7"/>
+    <path d="M55 78h82M72 69h2m12 0h2" fill="none" stroke="#A5F3FC" stroke-width="4" stroke-linecap="round"/>
+    <path d="m83 91-10 7 10 7m18-14 10 7-10 7" fill="none" stroke="#E0F2FE" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="112" cy="113" rx="32" ry="10" fill="none" stroke="#38BDF8" stroke-width="3" transform="rotate(-32 112 113)"/>
+    <circle cx="136" cy="96" r="6" fill="#F8FAFC"/>
+    <text x="32" y="211" fill="#F8FAFC" font-family="sans-serif" font-size="22" font-weight="700">02 · Codespace Orbit</text>
+    <text x="32" y="241" fill="#A9B5CB" font-family="sans-serif" font-size="15">A web IDE held in a connected orbit.</text>
+    <text x="32" y="270" fill="#38BDF8" font-family="sans-serif" font-size="13" font-weight="700">CLOUD · MOBILE · ALWAYS IN REACH</text>
+  </g>
+
+  <g transform="translate(40 460)">
+    <rect width="490" height="310" rx="24" fill="#151D30" stroke="#28344D"/>
+    <rect x="32" y="32" width="128" height="128" rx="30" fill="#332918"/>
+    <path d="M61 75h76a9 9 0 0 1 9 9v44a9 9 0 0 1-9 9H61a9 9 0 0 1-9-9V84a9 9 0 0 1 9-9Z" fill="none" stroke="url(#amber)" stroke-width="7"/>
+    <path d="m72 96 13 10-13 10m25 0h20" fill="none" stroke="#FEF3C7" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="m130 44 4 12 12 4-12 4-4 12-4-12-12-4 12-4 4-12Z" fill="#FDE68A"/>
+    <text x="32" y="211" fill="#F8FAFC" font-family="sans-serif" font-size="22" font-weight="700">03 · Terminal Forge</text>
+    <text x="32" y="241" fill="#A9B5CB" font-family="sans-serif" font-size="15">A terminal prompt with a bright spark.</text>
+    <text x="32" y="270" fill="#FBBF24" font-family="sans-serif" font-size="13" font-weight="700">BOLD · HANDS-ON · BUILDER ENERGY</text>
+  </g>
+
+  <g transform="translate(550 460)">
+    <rect width="490" height="310" rx="24" fill="#151D30" stroke="#28344D"/>
+    <rect x="32" y="32" width="128" height="128" rx="30" fill="#17352F"/>
+    <rect x="69" y="47" width="57" height="91" rx="13" fill="none" stroke="url(#mint)" stroke-width="7"/>
+    <path d="M84 59h27m-18 67h9" fill="none" stroke="#A7F3D0" stroke-width="4" stroke-linecap="round"/>
+    <path d="m83 89-8 7 8 7m24-14 8 7-8 7" fill="none" stroke="#ECFDF5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="m58 69-8 8 8 8m80-16 8 8-8 8" fill="none" stroke="#34D399" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    <text x="32" y="211" fill="#F8FAFC" font-family="sans-serif" font-size="22" font-weight="700">04 · Mobile Dev</text>
+    <text x="32" y="241" fill="#A9B5CB" font-family="sans-serif" font-size="15">Code brackets wrapped around a phone.</text>
+    <text x="32" y="270" fill="#34D399" font-family="sans-serif" font-size="13" font-weight="700">NATIVE · CLEAR · APP-STORE READY</text>
+  </g>
+</svg>

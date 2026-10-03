@@ -15,6 +15,10 @@ data class Repository(
     @SerializedName("full_name") val fullName: String,
     @SerializedName("html_url") val htmlUrl: String,
     @SerializedName("private") val isPrivate: Boolean,
+    @SerializedName("default_branch") val defaultBranch: String? = null,
+    val language: String? = null,
+    @SerializedName("updated_at") val updatedAt: String? = null,
+    val archived: Boolean = false,
 )
 
 data class CreateRepositoryRequest(
@@ -31,6 +35,29 @@ data class Codespace(
     val state: String,
     @SerializedName("repository") val repository: CodespaceRepository?,
     @SerializedName("web_url") val webUrl: String?,
+    @SerializedName("display_name") val displayName: String? = null,
+    val location: String? = null,
+    val machine: CodespaceMachine? = null,
+    @SerializedName("git_status") val gitStatus: CodespaceGitStatus? = null,
+    @SerializedName("devcontainer_path") val devcontainerPath: String? = null,
+    @SerializedName("created_at") val createdAt: String? = null,
+    @SerializedName("last_used_at") val lastUsedAt: String? = null,
+)
+
+data class CodespaceMachine(
+    val name: String?,
+    @SerializedName("display_name") val displayName: String?,
+    val cpus: Int?,
+    @SerializedName("memory_in_bytes") val memoryInBytes: Long?,
+    @SerializedName("storage_in_bytes") val storageInBytes: Long?,
+)
+
+data class CodespaceGitStatus(
+    val ahead: Int?,
+    val behind: Int?,
+    @SerializedName("has_unpushed_changes") val hasUnpushedChanges: Boolean?,
+    @SerializedName("has_uncommitted_changes") val hasUncommittedChanges: Boolean?,
+    @SerializedName("has_untracked_files") val hasUntrackedFiles: Boolean?,
 )
 
 data class CodespaceListResponse(
@@ -77,12 +104,15 @@ data class DeviceCodeResponse(
 )
 
 data class AccessTokenResponse(
-    @SerializedName("access_token") val accessToken: String?,
-    @SerializedName("token_type") val tokenType: String?,
+    @SerializedName(value = "access_token", alternate = ["accessToken"]) val accessToken: String?,
+    @SerializedName(value = "token_type", alternate = ["tokenType"]) val tokenType: String?,
     val scope: String?,
     val error: String?,
-    @SerializedName("error_description") val errorDescription: String?,
+    @SerializedName(value = "error_description", alternate = ["errorDescription"]) val errorDescription: String?,
     @SerializedName("expires_in") val expiresIn: Long? = null,
-    @SerializedName("refresh_token") val refreshToken: String? = null,
-    @SerializedName("refresh_token_expires_in") val refreshTokenExpiresIn: Long? = null,
+    @SerializedName(value = "refresh_token", alternate = ["refreshToken"]) val refreshToken: String? = null,
+    @SerializedName(
+        value = "refresh_token_expires_in",
+        alternate = ["refreshTokenExpiresIn"],
+    ) val refreshTokenExpiresIn: Long? = null,
 )

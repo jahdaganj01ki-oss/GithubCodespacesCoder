@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — Codespace Orbit</title>
+  <desc id="desc">A code editor window held in a connected orbital path.</desc>
+  <defs>
+    <linearGradient id="accent" x1="118" y1="130" x2="384" y2="388" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#79F0F2"/>
+      <stop offset="1" stop-color="#36AFFF"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <rect x="115" y="150" width="282" height="212" rx="34" fill="#101A24" stroke="url(#accent)" stroke-width="20"/>
+  <path d="M115 207h282" stroke="url(#accent)" stroke-width="16"/>
+  <circle cx="153" cy="179" r="8" fill="#D6FCFF"/>
+  <circle cx="181" cy="179" r="8" fill="#D6FCFF"/>
+  <path d="m214 265-34 27 34 27m84-54 34 27-34 27" fill="none" stroke="#E4FBFF" stroke-width="17" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M135 337c22 48 83 80 153 80 88 0 159-47 159-105 0-18-7-35-20-49" fill="none" stroke="url(#accent)" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="426" cy="263" r="18" fill="#E4FBFF"/>
+</svg>

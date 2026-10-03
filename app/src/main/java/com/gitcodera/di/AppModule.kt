@@ -1,7 +1,9 @@
 package com.gitcodera.di
 
+import com.gitcodera.BuildConfig
 import com.gitcodera.data.api.GitHubApiService
 import com.gitcodera.data.api.GitHubAuthService
+import com.gitcodera.data.api.OAuthBackendService
 import com.gitcodera.data.local.SecureStorage
 import com.gitcodera.data.repository.GitHubRepositoryImpl
 import com.gitcodera.domain.repository.GitHubRepository
@@ -74,4 +76,30 @@ object NetworkModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(GitHubAuthService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideOAuthBackend(): OAuthBackendService {
+        val configuredUrl = BuildConfig.OAUTH_BACKEND_URL
+        val baseUrl = if (configuredUrl.isBlank()) {
+            "https://oauth.invalid/"
+        } else {
+            require(configuredUrl.startsWith("https://")) {
+                "OAUTH_BACKEND_URL must use HTTPS."
+            }
+            configuredUrl.trimEnd('/') + "/"
+        }
+        return Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .client(
+                OkHttpClient.Builder()
+                    .connectTimeout(20, java.util.concurrent.TimeUnit.SECONDS)
+                    .readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                    .writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                    .build(),
+            )
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(OAuthBackendService::class.java)
+    }
 }

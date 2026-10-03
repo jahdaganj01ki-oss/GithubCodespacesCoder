@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — Cloud Commit</title>
+  <desc id="desc">A remote workspace cloud containing a compact commit graph.</desc>
+  <defs>
+    <linearGradient id="accent" x1="112" y1="134" x2="400" y2="377" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#84C5FF"/>
+      <stop offset="1" stop-color="#4789F5"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <path d="M150 323h218c42 0 68-27 68-63 0-33-25-58-59-62-13-57-59-96-119-96-55 0-101 34-116 84-43 3-73 31-73 69 0 40 32 68 81 68Z" fill="#111B27" stroke="url(#accent)" stroke-width="19" stroke-linejoin="round"/>
+  <path d="M256 190v150m0-76h77" stroke="#EAF5FF" stroke-width="17" stroke-linecap="round"/>
+  <circle cx="256" cy="190" r="23" fill="#DDEEFF"/>
+  <circle cx="256" cy="340" r="23" fill="#DDEEFF"/>
+  <circle cx="333" cy="264" r="23" fill="#8CC8FF"/>
+</svg>

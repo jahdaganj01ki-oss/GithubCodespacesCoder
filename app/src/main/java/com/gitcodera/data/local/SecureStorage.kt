@@ -59,6 +59,36 @@ class SecureStorage @Inject constructor(
             null
         }
 
+    fun savePendingOAuth(state: String, codeVerifier: String, ticket: String? = null) {
+        check(
+            preferences.edit()
+                .putString(PENDING_OAUTH_STATE_KEY, state)
+                .putString(PENDING_OAUTH_VERIFIER_KEY, codeVerifier)
+                .putString(PENDING_OAUTH_TICKET_KEY, ticket)
+                .commit(),
+        ) {
+            "Could not save pending OAuth state securely."
+        }
+    }
+
+    fun getPendingOAuthState(): String? = preferences.getString(PENDING_OAUTH_STATE_KEY, null)
+
+    fun getPendingOAuthVerifier(): String? = preferences.getString(PENDING_OAUTH_VERIFIER_KEY, null)
+
+    fun getPendingOAuthTicket(): String? = preferences.getString(PENDING_OAUTH_TICKET_KEY, null)
+
+    fun clearPendingOAuth() {
+        check(
+            preferences.edit()
+                .remove(PENDING_OAUTH_STATE_KEY)
+                .remove(PENDING_OAUTH_VERIFIER_KEY)
+                .remove(PENDING_OAUTH_TICKET_KEY)
+                .commit(),
+        ) {
+            "Could not clear pending OAuth state."
+        }
+    }
+
     fun clear() {
         check(preferences.edit().clear().commit()) {
             "Could not clear secure credentials."
@@ -70,5 +100,8 @@ class SecureStorage @Inject constructor(
         const val REFRESH_TOKEN_KEY = "github_refresh_token"
         const val ACCESS_TOKEN_EXPIRY_KEY = "github_access_token_expiry"
         const val REFRESH_TOKEN_EXPIRY_KEY = "github_refresh_token_expiry"
+        const val PENDING_OAUTH_STATE_KEY = "pending_oauth_state"
+        const val PENDING_OAUTH_VERIFIER_KEY = "pending_oauth_verifier"
+        const val PENDING_OAUTH_TICKET_KEY = "pending_oauth_ticket"
     }
 }

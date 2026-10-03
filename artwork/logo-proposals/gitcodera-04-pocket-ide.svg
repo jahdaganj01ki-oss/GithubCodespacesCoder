@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">GitCoderA — Pocket IDE</title>
+  <desc id="desc">A mobile device reduced to a bold code editor mark.</desc>
+  <defs>
+    <linearGradient id="accent" x1="157" y1="92" x2="355" y2="420" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#83F2C7"/>
+      <stop offset="1" stop-color="#27B989"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0D1117"/>
+  <rect x="151" y="82" width="210" height="348" rx="48" fill="#102019" stroke="url(#accent)" stroke-width="20"/>
+  <path d="M210 119h92" stroke="#B4F8DA" stroke-width="12" stroke-linecap="round"/>
+  <path d="m222 211-43 38 43 38m68-76 43 38-43 38" fill="none" stroke="#E7FFF4" stroke-width="19" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M221 338h70" stroke="#65DDB0" stroke-width="15" stroke-linecap="round"/>
+</svg>

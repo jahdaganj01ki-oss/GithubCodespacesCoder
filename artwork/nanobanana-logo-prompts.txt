@@ -1,0 +1,57 @@
+GitCoderA · Nano Banana logo exploration
+
+Workflow
+1. In VS Code, run "Nano Banana: Set Gemini API Key" once. Keep the key in VS Code SecretStorage; never paste it into this file or the repository.
+2. Select exactly one prompt block below in the editor.
+3. Run "Generate Image with Nano Banana Pro".
+4. Save each generated image in artwork/generated/ using the suggested filename.
+5. Compare all ten at the same size before selecting one for vector refinement and Android adaptive-icon export.
+
+Shared art direction
+- Create a standalone, original app icon for GitCoderA, a native Android mobile development environment for GitHub repositories and Codespaces.
+- Do not use GitHub's Octocat, VS Code's ribbon mark, copied product logos, or imply official affiliation with GitHub, Microsoft, Google, or any AI provider.
+- Icon only: no letters, words, numbers, watermark, mockup, device render, gradient background, or decorative frame outside the icon.
+- Use one bold, memorable silhouette with at most three interior shapes. It must remain recognizable at 24 px and work as a monochrome mark.
+- Center the mark in a 1:1 square with generous optical padding. Render as precise, clean, vector-like geometry with consistent stroke weight and crisp edges.
+- Show one finished icon on a plain near-black #0D1117 background, using only the color palette specified in the individual concept.
+- Avoid hairline strokes, tiny terminal text, excessive nodes, photorealism, 3D bevels, glow, busy circuitry, and generic stock-cloud imagery.
+
+01 · Branch Beacon
+Filename: gitcodera-01-branch-beacon.png
+Design a compact GitCoderA icon based on a minimal branching graph: one strong vertical trunk splitting into two short, balanced routes, with a small editor caret as the destination beacon. Use electric periwinkle #8B8CF8 and cool white #F4F6FC on near-black. Make the branch junction the clear visual center; keep the caret geometric and subordinate, not a cursor arrow. The silhouette should suggest version control and focused coding without resembling any existing Git hosting logo.
+
+02 · Codespace Orbit
+Filename: gitcodera-02-codespace-orbit.png
+Design a distinctive cloud-development icon: a simplified editor window with one central code chevron, encircled by a single broken orbital arc and one small connection node. Use cyan #55D6E8 with pale ice #EAFBFF on near-black. The editor window must remain dominant; the orbit should communicate a remote workspace, not a planet or astronomy brand. Keep all geometry bold and legible at launcher-icon size.
+
+03 · Terminal Forge
+Filename: gitcodera-03-terminal-forge.png
+Create a premium terminal-inspired app mark: one rounded terminal outline containing a single decisive prompt chevron that transforms into a tiny four-point build spark. Use warm amber #F4B942 and soft ivory #FFF6DF on near-black. The spark must be integrated into the prompt, not floating decoration. Use a restrained, technical silhouette suitable for a serious developer tool.
+
+04 · Pocket IDE
+Filename: gitcodera-04-pocket-ide.png
+Create an unmistakably mobile-first development icon: a minimal upright phone outline whose screen contains one large code caret and a short baseline. Use mint #53D6A5 with cool white #F1FFF8 on near-black. No camera, app buttons, keyboard, or realistic handset details. Keep the phone broad and the code glyph large enough to survive at 24 px.
+
+05 · Cloud Commit
+Filename: gitcodera-05-cloud-commit.png
+Design an original remote-workspace mark by combining a very simple cloud contour with a three-node commit path inside it. Use sky blue #55A9FF and white #F5FAFF on near-black. The path should be the primary symbol and the cloud merely its container. Avoid the common filled-cloud-with-upload-arrow cliché; preserve a compact, balanced, high-contrast silhouette.
+
+06 · Modular A
+Filename: gitcodera-06-modular-a.png
+Create an abstract monogram symbol without drawing a literal letter: construct an angular open frame from two code-bracket strokes and a small connecting pixel, suggesting the name GitCoderA through an architectural A-like negative space. Use vivid violet #A78BFA with a small accent of cyan #67E8F9 on near-black. Keep the mark to three solid geometric components and make the negative-space shape recognizable when reduced.
+
+07 · Git Loop
+Filename: gitcodera-07-git-loop.png
+Create a compact continuous-workflow symbol: two interlocking, angular paths form a subtle loop, with one small commit node where the paths meet. Use turquoise #4DD0C8 and pale mint #D9FFF4 on near-black. The paths should feel engineered and calm, not like an infinity or recycling logo. Use thick, even geometry and no extra nodes.
+
+08 · Dev Compass
+Filename: gitcodera-08-dev-compass.png
+Design a confident navigation mark for finding one's way through a codebase: a simple four-direction compass built from four code-chevron facets around one central square pixel. Use cobalt #6895FF with white #F5F7FF on near-black. Avoid a literal map pin, compass needle, or crosshair. Make the center pixel the focal point and the four facets form one unified app-icon silhouette.
+
+09 · Relay Bridge
+Filename: gitcodera-09-relay-bridge.png
+Create a symbol for connecting a phone to a cloud IDE: two minimal editor-bracket forms face each other across one sturdy bridge stroke, with a single connection dot at the midpoint. Use coral #FF8A72 and warm white #FFF5F1 on near-black. Do not draw cables, Wi-Fi arcs, or a literal phone. Keep it friendly but professional and exceptionally simple.
+
+10 · Pair Programmer
+Filename: gitcodera-10-pair-programmer.png
+Design an AI-ready coding companion mark without robot, brain, face, or chatbot imagery: two complementary code chevrons lean toward a single precise spark/pixel between them, suggesting a human and agent working in one editor. Use ultraviolet #9A83FF, aqua #58D7D0, and white only on near-black. Limit the composition to three bold shapes; keep the central spark tiny but visible and the overall mark balanced rather than playful.
