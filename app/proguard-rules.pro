@@ -1,0 +1,5 @@
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.gitcodera.data.model.** { *; }
+-keep class retrofit2.** { *; }
+-dontwarn retrofit2.**

@@ -1,0 +1,15 @@
+<resources>
+    <style name="Theme.GitCoderA" parent="@android:style/Theme.Material.NoActionBar">
+        <item name="android:colorAccent">#79C0FF</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:navigationBarColor">#0D1117</item>
+        <item name="android:statusBarColor">#0D1117</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+
+    <style name="Theme.GitCoderA.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#0D1117</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_gitcodera_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.GitCoderA</item>
+    </style>
+</resources>
