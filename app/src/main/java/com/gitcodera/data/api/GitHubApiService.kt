@@ -1,6 +1,7 @@
 package com.gitcodera.data.api
 
 import com.gitcodera.data.model.CodespaceListResponse
+import com.gitcodera.data.model.Codespace
 import com.gitcodera.data.model.CodespaceSecretPublicKey
 import com.gitcodera.data.model.CodespacesSecretListResponse
 import com.gitcodera.data.model.CreateCodespaceRequest

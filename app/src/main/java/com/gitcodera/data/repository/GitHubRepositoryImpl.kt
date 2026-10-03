@@ -23,8 +23,8 @@ import kotlinx.coroutines.delay
 import android.os.SystemClock
 import com.goterl.lazysodium.LazySodiumAndroid
 import com.goterl.lazysodium.SodiumAndroid
-import com.goterl.lazysodium.utils.Base64
 import java.nio.charset.StandardCharsets
+import java.util.Base64
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -214,19 +214,19 @@ class GitHubRepositoryImpl @Inject constructor(
         val publicKey = api.getCodespacesSecretsPublicKey()
         val message = value.toByteArray(StandardCharsets.UTF_8)
         try {
-            val cipher = ByteArray(message.size + SodiumAndroid.CRYPTO_BOX_SEAL_BYTES)
+            val cipher = ByteArray(message.size + CRYPTO_BOX_SEAL_OVERHEAD_BYTES)
             val sodium = LazySodiumAndroid(SodiumAndroid())
             val encrypted = sodium.cryptoBoxSeal(
                 cipher,
                 message,
                 message.size.toLong(),
-                Base64.decode(publicKey.key),
+                Base64.getDecoder().decode(publicKey.key),
             )
             check(encrypted) { "Could not encrypt the Codespaces secret." }
             api.putCodespacesSecret(
                 name,
                 PutCodespacesSecretRequest(
-                    encryptedValue = Base64.encode(cipher),
+                    encryptedValue = Base64.getEncoder().encodeToString(cipher),
                     keyId = publicKey.keyId,
                     selectedRepositoryIds = listOf(repositoryId),
                 ),
@@ -317,6 +317,7 @@ class GitHubRepositoryImpl @Inject constructor(
     private companion object {
         const val PAGE_SIZE = 100
         const val TOKEN_REFRESH_SKEW_MILLIS = 60_000L
+        const val CRYPTO_BOX_SEAL_OVERHEAD_BYTES = 48
         const val DEVICE_VERIFICATION_URI = "https://github.com/login/device"
         const val APP_REDIRECT_URI = "gitcodera://oauth/callback"
     }
