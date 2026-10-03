@@ -225,7 +225,7 @@ class GitHubRepositoryImpl @Inject constructor(
             check(encrypted) { "Could not encrypt the Codespaces secret." }
             api.putCodespacesSecret(
                 name,
-                PutCodespacesSecretRequest(
+                PutCodespaceSecretRequest(
                     encryptedValue = Base64.getEncoder().encodeToString(cipher),
                     keyId = publicKey.keyId,
                     selectedRepositoryIds = listOf(repositoryId),
